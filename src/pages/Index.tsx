@@ -34,17 +34,12 @@ const Index = () => {
             <span className="text-xl font-bold">ruprojectgames</span>
           </div>
           
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="flex items-center gap-8">
             <a href="#" className="text-gray-300 hover:text-white transition">Главная</a>
             <a href="#" className="text-gray-300 hover:text-white transition">Русификаторы</a>
             <a href="#" className="text-gray-300 hover:text-white transition">Инструкции</a>
             <a href="#" className="text-gray-300 hover:text-white transition">Новости</a>
           </nav>
-
-          <Button className="bg-red-600 hover:bg-red-700 text-white">
-            <Icon name="LogIn" size={18} className="mr-2" />
-            Войти
-          </Button>
         </div>
       </header>
 
@@ -55,11 +50,11 @@ const Index = () => {
         </div>
 
         <div className="flex justify-center gap-4 mb-12">
-          <Button className="bg-red-600 hover:bg-red-700 text-white px-8">
+          <Button className="bg-red-600 hover:bg-red-700 text-white px-8 shadow-[0_0_20px_rgba(220,38,38,0.5)] hover:shadow-[0_0_30px_rgba(220,38,38,0.7)] transition-all">
             <Icon name="Download" size={18} className="mr-2" />
             Скачать русификатор
           </Button>
-          <Button variant="outline" className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-8">
+          <Button variant="outline" className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-8 shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.6)] transition-all">
             <Icon name="BookOpen" size={18} className="mr-2" />
             Инструкции
           </Button>
@@ -82,21 +77,21 @@ const Index = () => {
           <Button
             variant={activeTab === 'Все' ? 'default' : 'outline'}
             onClick={() => setActiveTab('Все')}
-            className={activeTab === 'Все' ? 'bg-red-600 hover:bg-red-700' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900'}
+            className={activeTab === 'Все' ? 'bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] transition-all' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900 hover:shadow-[0_0_10px_rgba(220,38,38,0.2)] transition-all'}
           >
             Все
           </Button>
           <Button
             variant={activeTab === 'TES V SKYRIM' ? 'default' : 'outline'}
             onClick={() => setActiveTab('TES V SKYRIM')}
-            className={activeTab === 'TES V SKYRIM' ? 'bg-red-600 hover:bg-red-700' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900'}
+            className={activeTab === 'TES V SKYRIM' ? 'bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] transition-all' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900 hover:shadow-[0_0_10px_rgba(220,38,38,0.2)] transition-all'}
           >
             TES V SKYRIM
           </Button>
           <Button
             variant={activeTab === 'The Witcher Wild Hunt' ? 'default' : 'outline'}
             onClick={() => setActiveTab('The Witcher Wild Hunt')}
-            className={activeTab === 'The Witcher Wild Hunt' ? 'bg-red-600 hover:bg-red-700' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900'}
+            className={activeTab === 'The Witcher Wild Hunt' ? 'bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] transition-all' : 'border-zinc-800 text-gray-400 hover:text-white hover:bg-zinc-900 hover:shadow-[0_0_10px_rgba(220,38,38,0.2)] transition-all'}
           >
             The Witcher Wild Hunt
           </Button>
@@ -119,7 +114,7 @@ const Index = () => {
                       <p className="text-gray-400 mb-2">{translation.game}</p>
                       <p className="text-sm text-gray-500">Автор: {translation.author} • Версия: {translation.version}</p>
                     </div>
-                    <Button className="bg-red-600 hover:bg-red-700">
+                    <Button className="bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] transition-all">
                       <Icon name="Download" size={18} className="mr-2" />
                       Скачать
                     </Button>
