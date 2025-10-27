@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,12 +9,30 @@ interface Translation {
   modName: string;
   author: string;
   version: string;
+  downloadUrl: string;
 }
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
-  const [translations] = useState<Translation[]>([]);
+  const [translations, setTranslations] = useState<Translation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTranslations = async () => {
+      try {
+        const response = await fetch('https://functions.poehali.dev/1b46ded0-1ccb-41d3-bdbc-6e1171dcc279');
+        const data = await response.json();
+        setTranslations(data);
+      } catch (error) {
+        console.error('Ошибка загрузки русификаторов:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTranslations();
+  }, []);
 
   const filteredTranslations = translations.filter((t) => {
     const matchesSearch = t.modName.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -98,7 +116,12 @@ const Index = () => {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          {filteredTranslations.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+              <p className="text-gray-400">Загрузка русификаторов...</p>
+            </div>
+          ) : filteredTranslations.length === 0 ? (
             <div className="text-center py-16">
               <Icon name="FolderOpen" size={64} className="mx-auto mb-4 text-gray-600" />
               <h3 className="text-2xl font-semibold mb-2 text-gray-300">Русификаторы скоро появятся</h3>
@@ -114,7 +137,10 @@ const Index = () => {
                       <p className="text-gray-400 mb-2">{translation.game}</p>
                       <p className="text-sm text-gray-500">Автор: {translation.author} • Версия: {translation.version}</p>
                     </div>
-                    <Button className="bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] transition-all">
+                    <Button 
+                      onClick={() => window.open(translation.downloadUrl, '_blank')}
+                      className="bg-red-600 hover:bg-red-700 shadow-[0_0_15px_rgba(220,38,38,0.4)] hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] transition-all"
+                    >
                       <Icon name="Download" size={18} className="mr-2" />
                       Скачать
                     </Button>

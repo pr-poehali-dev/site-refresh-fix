@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "Reject without password",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "game": "TES V SKYRIM",
+        "modName": "Test Mod",
+        "author": "Test Author",
+        "version": "1.0",
+        "downloadUrl": "https://example.com/download"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

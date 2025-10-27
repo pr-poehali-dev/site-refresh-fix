@@ -1,0 +1,20 @@
+{
+  "tests": [
+    {
+      "name": "Get all translations",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": [],
+      "bodyMatcher": "type"
+    },
+    {
+      "name": "Filter translations by game",
+      "method": "GET",
+      "path": "/?game=TES V SKYRIM",
+      "expectedStatus": 200,
+      "expectedBody": [],
+      "bodyMatcher": "type"
+    }
+  ]
+}
