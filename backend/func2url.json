@@ -1,4 +1,5 @@
 {
+  "admin-auth": "https://functions.poehali.dev/04739d63-7227-4d85-bb91-a6d7d6aaf754",
   "delete-translation": "https://functions.poehali.dev/9b7b60e7-0188-455b-b09e-69b36604d65b",
   "add-translation": "https://functions.poehali.dev/02f72b96-303b-4e9d-b7fa-b82a186f2abb",
   "get-translations": "https://functions.poehali.dev/1b46ded0-1ccb-41d3-bdbc-6e1171dcc279"

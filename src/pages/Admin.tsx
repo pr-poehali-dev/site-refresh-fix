@@ -75,13 +75,39 @@ const Admin = () => {
     }
   };
 
-  const handleAuth = (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password) {
-      setIsAuthenticated(true);
+    
+    try {
+      const response = await fetch('https://functions.poehali.dev/04739d63-7227-4d85-bb91-a6d7d6aaf754', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': password
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.valid) {
+        setIsAuthenticated(true);
+        toast({
+          title: 'Вход выполнен',
+          description: 'Добро пожаловать в админ-панель'
+        });
+      } else {
+        toast({
+          title: 'Ошибка',
+          description: 'Неверный пароль',
+          variant: 'destructive'
+        });
+        setPassword('');
+      }
+    } catch (error) {
       toast({
-        title: 'Вход выполнен',
-        description: 'Добро пожаловать в админ-панель'
+        title: 'Ошибка',
+        description: 'Проблема с подключением к серверу',
+        variant: 'destructive'
       });
     }
   };

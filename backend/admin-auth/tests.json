@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "name": "Valid password returns true",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-Admin-Password": "test123"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "valid": "boolean"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Invalid password returns false",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-Admin-Password": "wrongpassword"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "valid": false
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "OPTIONS request for CORS",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
