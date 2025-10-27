@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,63 @@ const Admin = () => {
     downloadUrl: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [translations, setTranslations] = useState<any[]>([]);
+  const [isLoadingList, setIsLoadingList] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadTranslations();
+    }
+     
+  }, [isAuthenticated]);
+
+  const loadTranslations = async () => {
+    setIsLoadingList(true);
+    try {
+      const response = await fetch('https://functions.poehali.dev/1b46ded0-1ccb-41d3-bdbc-6e1171dcc279');
+      const data = await response.json();
+      setTranslations(data);
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+    } finally {
+      setIsLoadingList(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Удалить этот русификатор?')) return;
+
+    try {
+      const response = await fetch(`https://functions.poehali.dev/9b7b60e7-0188-455b-b09e-69b36604d65b?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Admin-Password': password
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: 'Успешно!',
+          description: 'Русификатор удалён'
+        });
+        loadTranslations();
+      } else {
+        toast({
+          title: 'Ошибка',
+          description: data.error || 'Не удалось удалить',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Проблема с подключением к серверу',
+        variant: 'destructive'
+      });
+    }
+  };
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +114,7 @@ const Admin = () => {
           version: '',
           downloadUrl: ''
         });
+        loadTranslations();
       } else {
         toast({
           title: 'Ошибка',
@@ -132,8 +190,9 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto px-4 py-16">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">Добавить русификатор</h1>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-8">Добавить русификатор</h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -210,6 +269,42 @@ const Admin = () => {
               {isSubmitting ? 'Добавление...' : 'Добавить русификатор'}
             </Button>
           </form>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold mb-8">Список русификаторов</h2>
+            {isLoadingList ? (
+              <div className="text-center py-8">
+                <div className="animate-spin w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full mx-auto"></div>
+              </div>
+            ) : translations.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                Русификаторов пока нет
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {translations.map((t) => (
+                  <div key={t.id} className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <h3 className="font-semibold mb-1">{t.modName}</h3>
+                        <p className="text-sm text-gray-400 mb-1">{t.game}</p>
+                        <p className="text-xs text-gray-500">Автор: {t.author} • v{t.version}</p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(t.id)}
+                        className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                      >
+                        <Icon name="Trash2" size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>

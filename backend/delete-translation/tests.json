@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Reject delete without password",
+      "method": "DELETE",
+      "path": "/?id=999",
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
